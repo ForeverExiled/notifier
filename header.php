@@ -14,5 +14,6 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/init.php";
     <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
     <link rel="icon" href="/assets/images/favicon-16x16.png" type="image/x-icon">
     <link rel="icon" href="/assets/images/favicon-32x32.png" type="image/x-icon">
+    <script src="/script.js"></script>
 </head>
 <body>
