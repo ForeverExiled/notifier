@@ -1,7 +1,12 @@
-async function foo(payload) {
-    const body = JSON.stringify(payload);
-    const response = await fetch("/handler.php", {
+async function handle(payload) {
+    const response = await fetch("/core/handler.php", {
         method: "post",
-        body: body,
-    }).then((response) => console.log(response.json));
+        body: payload,
+    });
+
+    if (response.ok) {
+	const json = await response.json();
+
+	console.log(json);
+    }
 }
