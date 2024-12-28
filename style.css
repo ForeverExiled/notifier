@@ -3,16 +3,50 @@
 body {
     background: black;
 }
+nav {
+    margin: 15px 0;
+}
 ol, a, h1 {
     color: white;
 }
 a {
-    font-size: 16px;
+    font-size: medium;
     text-decoration: none;
     border: solid pink 2px;
     border-radius: 5px;
-    padding: 5px;
+    padding: 5px 10px;
     &:hover {
         text-decoration: underline;
+    }
+}
+
+#form_create {
+    display: grid;
+    grid-auto-columns: max-content;
+    & > * {
+	border-radius: 10px;
+	border: solid deeppink 2px;
+    }
+}
+textarea {
+    resize: none;
+    padding: 10px;
+    font-size: larger;
+    grid-column: span 3;
+    margin-bottom: 10px;
+    background: transparent;
+    color: whitesmoke;
+}
+input[type=datetime-local] {
+    padding: 0 5px;
+}
+button[type=submit] {
+    grid-column: 3;
+    padding: 5px 15px;
+    &:hover {
+	background: transparent;
+	color: whitesmoke;
+	transform: scale(1.1);
+	cursor: pointer;
     }
 }

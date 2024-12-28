@@ -10,7 +10,12 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/core/init.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🦋Напоминалка🦋</title>
     <link rel="stylesheet" href="/style.css">
-    <script src="/jquery-3.7.1.slim.min.js"></script>
-    <script src="/script.js"></script>
   </head>
   <body>
+    <nav>
+      <?if($_SERVER["SCRIPT_NAME"] !== "/index.php"):?>
+      <a href="/" class="text no-decoration pacifico-regular">Домой</a>
+      <?else:?>
+      <a class="text no-decoration pacifico-regular" href="pages/create.php">Создать напоминание</a>
+      <?endif?>
+    </nav>
