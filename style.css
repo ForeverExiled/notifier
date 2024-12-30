@@ -7,7 +7,7 @@ nav {
     margin: 15px 0;
 }
 ol, a, h1 {
-    color: white;
+    color: whitesmoke;
 }
 a {
     font-size: medium;
@@ -19,7 +19,6 @@ a {
         text-decoration: underline;
     }
 }
-
 #form_create {
     display: grid;
     grid-auto-columns: max-content;
@@ -48,5 +47,30 @@ button[type=submit] {
 	color: whitesmoke;
 	transform: scale(1.1);
 	cursor: pointer;
+    }
+}
+.hr__bold {
+    border: solid 3px whitesmoke;
+    border-radius: 5px;
+}
+section.list {
+    overflow-y: scroll;
+    max-width: fit-content;
+    max-height: 400px;
+    border: solid 5px deeppink;
+    border-radius: 10px;
+    scroll-behavior: smooth;
+    scrollbar-color: pink black;
+    scrollbar-gutter: stable;
+    padding: 0 50px 0 0;
+    & div {
+        color: whitesmoke;
+        margin: 10px;
+        &:hover {
+            text-decoration: underline;
+            color: pink;
+            font-style: italic;
+            cursor: pointer;
+        }
     }
 }
