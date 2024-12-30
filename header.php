@@ -1,5 +1,4 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"]."/core/constants.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/core/init.php";
 ?>
 
@@ -16,6 +15,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/core/init.php";
       <?if($_SERVER["SCRIPT_NAME"] !== "/index.php"):?>
       <a href="/" class="text no-decoration pacifico-regular">Домой</a>
       <?else:?>
-      <a class="text no-decoration pacifico-regular" href="pages/create.php">Создать напоминание</a>
+      <a class="text no-decoration pacifico-regular" href="pages/add.php">Добавить напоминание</a>
       <?endif?>
     </nav>
+    <hr>
