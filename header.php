@@ -13,9 +13,9 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/core/init.php";
 	<body>
 		<nav>
 			<?if($_SERVER["SCRIPT_NAME"] !== "/index.php"):?>
-				<a href="/" class="text no-decoration pacifico-regular">Домой</a>
+				<a href="/" class="text no-decoration pacifico-regular btn-default">Домой</a>
 			<?else:?>
-				<a class="text no-decoration pacifico-regular" href="pages/add.php">Добавить напоминание</a>
+				<a class="text no-decoration pacifico-regular btn-default" href="pages/add.php">Добавить напоминание</a>
 			<?endif?>
 		</nav>
 		<hr class="hr__bold">

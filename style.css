@@ -9,7 +9,7 @@ nav {
 ol, a, h1 {
     color: whitesmoke;
 }
-a {
+.btn-default {
     font-size: medium;
     text-decoration: none;
     border: solid pink 2px;
@@ -63,8 +63,7 @@ section.list {
     scrollbar-color: pink black;
     scrollbar-gutter: stable;
     padding: 0 50px 0 0;
-    & div {
-        color: whitesmoke;
+    & a {
         margin: 10px;
         &:hover {
             text-decoration: underline;

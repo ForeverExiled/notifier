@@ -6,7 +6,12 @@ switch($_SERVER["REQUEST_METHOD"]) {
         switch($_POST["action"]) {
             case "create":
                 $db->exec("INSERT INTO ".TABLE." (text, datetime) VALUES (\"{$_POST['text']}\", \"{$_POST['datetime']}\")");
-                header("Refresh: 0; url=/");
+                break;
+            case "update":
+                $db->exec("UPDATE ".TABLE." SET (text, datetime) = (\"{$_POST['text']}\", \"{$_POST['datetime']}\") WHERE id={$_POST['id']};");
+                break;
         }
-        break;
+    break;
 }
+
+header("Refresh: 0; url=/");

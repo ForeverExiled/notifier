@@ -1,5 +1,5 @@
 <?php
-include $_SERVER["DOCUMENT_ROOT"]."/header.php";
+include_once $_SERVER["DOCUMENT_ROOT"]."/header.php";
 $query_result = $db->query("SELECT * FROM ".TABLE." ORDER BY datetime");
 $todos = [];
 while ($row = $query_result->fetchArray(SQLITE3_ASSOC)) {
@@ -18,9 +18,9 @@ $count = count($todos);
 <?if($count > 0):?>
 	<section class="list">
 		<?for($i = 0; $i < $count; $i++):?>
-			<div data-id="<?=$todos[$i]["id"]?>">
+			<a href="pages/edit.php?id=<?=$todos[$i]["id"]?>">
 				<?=$todos[$i]["text"]?>
-			</div>
+			</a>
 			<?if($i < $count - 1):?>
 				<hr>
 			<?endif?>
@@ -31,4 +31,4 @@ $count = count($todos);
 <?endif?>
 
 <?php
-include $_SERVER["DOCUMENT_ROOT"]."/footer.php";
+include_once $_SERVER["DOCUMENT_ROOT"]."/footer.php";
