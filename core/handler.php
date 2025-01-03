@@ -25,4 +25,6 @@ switch($_SERVER["REQUEST_METHOD"]) {
     break;
 }
 
-header("Refresh: 0; url=/");
+if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
+    header("Refresh: 0; url=/");
+}
