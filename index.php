@@ -18,9 +18,9 @@ $count = count($todos);
 <?if($count > 0):?>
 	<section class="list">
 		<?for($i = 0; $i < $count; $i++):?>
-			<a href="pages/edit.php?id=<?=$todos[$i]["id"]?>">
+			<div data-id="<?=$todos[$i]["id"]?>" onclick="show_context_menu([event, this.dataset.id])">
 				<?=$todos[$i]["text"]?>
-			</a>
+			</div>
 			<?if($i < $count - 1):?>
 				<hr>
 			<?endif?>
