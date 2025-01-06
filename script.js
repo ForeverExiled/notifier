@@ -57,3 +57,30 @@ function confirm_delete(e) {
         }
     }
 }
+
+function go_off() {
+	// TODO: make browser play notification sound;
+	/*
+		Display alert. When user presses "OK", mark todo as fulfilled and go to the next one
+	*/
+}
+
+let interval;
+
+document.addEventListener("DOMContentLoaded", function () {
+    const nearest_deadline = document.querySelector(".todo-item");
+    if (nearest_deadline) {
+        const timestamp = Date.parse(nearest_deadline.dataset.datetime);
+        interval = setInterval(() => {
+            if ((timestamp - Date.now()) <= 0) {
+				clearInterval(interval);
+                go_off();
+            }
+        }, 1000);
+    }
+
+	const dt_picker = document.querySelector("input[type=datetime-local]");
+	// if (dt_picker) {
+	// 	dt_picker.min = 
+	// }
+});

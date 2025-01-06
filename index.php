@@ -9,6 +9,7 @@ while ($row = $query_result->fetchArray(SQLITE3_ASSOC)) {
 	$date[2] = intval($date[2]);
 	$todos[] = [
 		"id" => $row["id"],
+		"datetime" => $row["datetime"],
 		"text" => "$date[2] $date[1] $date[0] в $time: $row[text]",
 	];
 }
@@ -17,7 +18,7 @@ $count = count($todos);
 
 <section class="list<?if($count) echo " show"?>">
 	<?for($i = 0; $i < $count; $i++):?>
-		<div data-id="<?=$todos[$i]["id"]?>" onclick="show_context_menu([event, this.dataset.id])">
+		<div class="todo-item" data-id="<?=$todos[$i]["id"]?>" data-datetime="<?=$todos[$i]["datetime"]?>" onclick="show_context_menu([event, this.dataset.id])">
 			<?=$todos[$i]["text"]?>
 		</div>
 		<?if($i < $count - 1):?>
