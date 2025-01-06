@@ -80,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 	const dt_picker = document.querySelector("input[type=datetime-local]");
-	// if (dt_picker) {
-	// 	dt_picker.min = 
-	// }
+	if (dt_picker) {
+        const now = new Date();
+		dt_picker.min = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}T${now.getHours()}:${now.getMinutes() + 1}`;
+	}
 });
