@@ -63,6 +63,25 @@ function go_off() {
 	/*
 		Display alert. When user presses "OK", mark todo as fulfilled and go to the next one
 	*/
+    console.log(`going off at: ${Date.now().toLocaleString()}`);
+}
+
+function validate(event) {
+    const dt_picker = document.querySelector("input[type=datetime-local]");
+    dt_picker.setCustomValidity("");
+    const validity_state = dt_picker.validity;
+    // FIXME: figure out how to validate date correctly
+    const diff = Date.parse(dt_picker.value) + 60000 - Date.now();
+    console.log(diff);
+    if (validity_state.valueMissing) {
+        dt_picker.setCustomValidity("Выбери денек и время!");
+    } else if (diff) {
+        dt_picker.setCustomValidity("Нельзя поставить напоминание в прошлое!");
+    }
+    if (validity_state.customError) {
+        event.preventDefault();
+    }
+    dt_picker.reportValidity();
 }
 
 let interval;
@@ -79,9 +98,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
     }
 
-	const dt_picker = document.querySelector("input[type=datetime-local]");
+    const dt_picker = document.querySelector("input[type=datetime-local]");
 	if (dt_picker) {
         const now = new Date();
-		dt_picker.min = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}T${now.getHours()}:${now.getMinutes() + 1}`;
+		dt_picker.min = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
 	}
 });
