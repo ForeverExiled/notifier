@@ -43,10 +43,17 @@ function confirm_delete(e) {
                 action: "delete",
             }),
         });
+
         const todo = document.querySelector(`div[data-id="${this.dataset.id}"]`);
         if (sibling = (todo.nextElementSibling || todo.previousElementSibling)) {
             sibling.remove();
         }
         todo.remove();
+
+        const list = document.querySelector("section.list");
+        if (!list.childElementCount) {
+            list.classList.remove("show");
+            document.querySelector("p.empty-list").classList.add("show");
+        }
     }
 }

@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"]."/header.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/header.php";
 $query_result = $db->query("SELECT * FROM ".TABLE." ORDER BY datetime");
 $todos = [];
 while ($row = $query_result->fetchArray(SQLITE3_ASSOC)) {
@@ -15,20 +15,17 @@ while ($row = $query_result->fetchArray(SQLITE3_ASSOC)) {
 $count = count($todos);
 ?>
 
-<?if($count > 0):?>
-	<section class="list">
-		<?for($i = 0; $i < $count; $i++):?>
-			<div data-id="<?=$todos[$i]["id"]?>" onclick="show_context_menu([event, this.dataset.id])">
-				<?=$todos[$i]["text"]?>
-			</div>
-			<?if($i < $count - 1):?>
-				<hr>
-			<?endif?>
-		<?endfor?>
-	</section>
-<?else:?>
-	<p class="pacifico-regular">Свободна как попуг!</p>
-<?endif?>
+<section class="list<?if($count) echo " show"?>">
+	<?for($i = 0; $i < $count; $i++):?>
+		<div data-id="<?=$todos[$i]["id"]?>" onclick="show_context_menu([event, this.dataset.id])">
+			<?=$todos[$i]["text"]?>
+		</div>
+		<?if($i < $count - 1):?>
+			<hr>
+		<?endif?>
+	<?endfor?>
+</section>
+<p class="empty-list pacifico-regular<?if(!$count) echo " show"?>">Свободна как попуг!</p>
 
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"]."/footer.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/footer.php";

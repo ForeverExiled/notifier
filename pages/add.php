@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"]."/header.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/header.php";
 ?>
 
 <form id="form_create" action="/core/handler.php" method="post">
@@ -9,4 +9,4 @@ include_once $_SERVER["DOCUMENT_ROOT"]."/header.php";
   <button type="submit" class="pacifico-regular">Добавить!</button>
 </form>
 
-<?php include_once $_SERVER["DOCUMENT_ROOT"]."/footer.php";
+<?php require_once $_SERVER["DOCUMENT_ROOT"]."/footer.php";

@@ -6,7 +6,7 @@ body {
 nav {
     margin: 15px 0;
 }
-ol, a, h1, textarea, div {
+ol, a, h1, textarea, div, p {
     color: whitesmoke;
 }
 .btn-default {
@@ -53,6 +53,7 @@ button[type=submit] {
     border-radius: 5px;
 }
 section.list {
+    display: none;
     overflow-y: scroll;
     max-width: fit-content;
     max-height: 400px;
@@ -70,6 +71,9 @@ section.list {
             font-style: italic;
             cursor: pointer;
         }
+    }
+    &.show {
+        display: block;
     }
 }
 #wrapper {
@@ -91,5 +95,11 @@ section.list {
             color: rgb(255, 136, 0);
             text-decoration: underline;
         }
+    }
+}
+.empty-list {
+    display: none;
+    &.show {
+        display: block;
     }
 }

@@ -27,4 +27,5 @@ function month_num_to_word($num) : string {
 
 $db = new SQLite3(__DIR__."/".DATABASE);
 $db->busyTimeout(60000);
+$db->exec("PRAGMA journal_mode=wal;");
 $db->exec("CREATE TABLE IF NOT EXISTS ".TABLE." (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, text TEXT, datetime TEXT);");

@@ -1,5 +1,5 @@
 <?php
-include $_SERVER["DOCUMENT_ROOT"]."/header.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/header.php";
 $todo = $db->querySingle("SELECT * FROM ".TABLE." WHERE id={$_GET['id']};", true);
 ?>
 
@@ -11,4 +11,4 @@ $todo = $db->querySingle("SELECT * FROM ".TABLE." WHERE id={$_GET['id']};", true
 	<button type="submit" class="pacifico-regular">Сохранить!</button>
 </form>
 
-<?php include $_SERVER["DOCUMENT_ROOT"]."/footer.php";
+<?php require_once $_SERVER["DOCUMENT_ROOT"]."/footer.php";
