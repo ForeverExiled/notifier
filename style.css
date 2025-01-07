@@ -19,7 +19,7 @@ ol, a, h1, textarea, div, p {
         text-decoration: underline;
     }
 }
-#form_create {
+form {
     display: grid;
     grid-auto-columns: max-content;
     & > * {
@@ -76,10 +76,14 @@ section.list {
         display: block;
     }
 }
-#wrapper {
+#ctx__wrapper {
     position: absolute;
     inset: 0;
     z-index: 5;
+    display: none;
+    &.show {
+        display: block;
+    }
 }
 .context-menu {
     position: fixed;

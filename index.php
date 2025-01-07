@@ -18,7 +18,7 @@ $count = count($todos);
 
 <section class="list<?if($count) echo " show"?>">
 	<?for($i = 0; $i < $count; $i++):?>
-		<div class="todo-item" data-id="<?=$todos[$i]["id"]?>" data-datetime="<?=$todos[$i]["datetime"]?>" onclick="show_context_menu([event, this.dataset.id])">
+		<div class="todo-item" data-id="<?=$todos[$i]["id"]?>" data-datetime="<?=$todos[$i]["datetime"]?>" onclick="show_context_menu(event)">
 			<?=$todos[$i]["text"]?>
 		</div>
 		<?if($i < $count - 1):?>
@@ -27,6 +27,13 @@ $count = count($todos);
 	<?endfor?>
 </section>
 <p class="empty-list pacifico-regular<?if(!$count) echo " show"?>">Свободна как попуг!</p>
+<div id="ctx__wrapper" onclick="hide_context_menu()">
+	<div id="ctx__menu" class="context-menu">
+		<a id="ctx__btn-edit" href="#">Изменить</a>
+		<hr>
+		<div id="ctx__btn-delete" onclick="confirm_delete(event)">Удалить</div>
+	</div>
+</div>
 
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"]."/footer.php";

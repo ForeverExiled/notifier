@@ -1,37 +1,19 @@
-function show_context_menu(e) {
-    hide_context_menu();
+function show_context_menu(event) {
+    const context_menu = document.getElementById("ctx__menu");
+    context_menu.style.top = `${event.clientY}px`;
+    context_menu.style.left = `${event.clientX}px`;
 
-    const wrapper = document.createElement("div");
-    wrapper.id = "wrapper";
-    wrapper.addEventListener("click", hide_context_menu);
+    document.getElementById("ctx__btn-edit").href = `/pages/edit.php?id=${event.target.dataset.id}`;
+    document.getElementById("ctx__btn-delete").setAttribute("data-id", event.target.dataset.id);
 
-    const context_menu = document.createElement("div");
-    context_menu.className = "context-menu";
-    context_menu.style.top = `${e[0].clientY}px`;
-    context_menu.style.left = `${e[0].clientX}px`;
-
-    const action_edit = document.createElement("a");
-    action_edit.href = `/pages/edit.php?id=${e[1]}`;
-    action_edit.text = "Изменить";
-
-    const action_delete = document.createElement("div");
-    action_delete.setAttribute("data-id", e[1]);
-    action_delete.textContent = "Удалить";
-    action_delete.addEventListener("click", confirm_delete);
-
-    context_menu.append(action_edit, document.createElement("hr"), action_delete);
-    wrapper.append(context_menu);
-    document.body.append(wrapper);
+    document.getElementById("ctx__wrapper").classList.add("show");
 }
 
 function hide_context_menu() {
-    const wrapper = document.getElementById("wrapper");
-    if (wrapper) {
-        wrapper.remove();
-    }
+    document.getElementById("ctx__wrapper").classList.remove("show");
 }
 
-function confirm_delete(e) {
+function confirm_delete(event) {
     if (confirm("Подтверди удаление!")) {
         fetch("/core/handler.php", {
             method: "POST",
@@ -39,12 +21,12 @@ function confirm_delete(e) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: this.dataset.id,
+                id: event.target.dataset.id,
                 action: "delete",
             }),
         });
 
-        const todo = document.querySelector(`div[data-id="${this.dataset.id}"]`);
+        const todo = document.querySelector(`div[data-id="${event.target.dataset.id}"]`);
         if (sibling = (todo.nextElementSibling || todo.previousElementSibling)) {
             sibling.remove();
         }
@@ -95,4 +77,11 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }, 1000);
     }
+
+    const dt_picker = document.querySelector("#form_create input[type=datetime-local]");
+    console.log(dt_picker);
+	if (dt_picker) {
+        const now = new Date();
+		dt_picker.value = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
+	}
 });
