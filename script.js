@@ -93,9 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
     }
 
-    const dt_picker = document.querySelector("#form_create input[type=datetime-local]");
+    const dt_picker = document.querySelector("input[type=datetime-local]");
 	if (dt_picker) {
         const now = new Date();
-		dt_picker.value = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
+        const today = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}`;
+		dt_picker.min = `${today}T00:00`;
+		if (dt_picker.parentElement.id === "form_create") {
+            dt_picker.value = `${today}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
+        }
 	}
 });
