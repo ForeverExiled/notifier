@@ -48,20 +48,35 @@ function go_off() {
     console.log(`going off at: ${Date.now().toLocaleString()}`);
 }
 
-function validate(event) {
+function validate_textarea() {
+    const textarea = document.querySelector("textarea");
+    if (textarea.validity.valueMissing) {
+        textarea.setCustomValidity("Напиши то, о чем нужно напомнить!");
+    } else {
+        textarea.setCustomValidity("");
+    }
+    textarea.reportValidity();
+    return !textarea.validity.customError;
+}
+
+function validate_datetime() {
     const dt_picker = document.querySelector("input[type=datetime-local]");
-    const validity_state = dt_picker.validity;
-    if (validity_state.valueMissing) {
+    if (dt_picker.validity.valueMissing) {
         dt_picker.setCustomValidity("Выбери денек и время!");
     } else if (Date.parse(dt_picker.value) - Date.now() <= 0) {
         dt_picker.setCustomValidity("Нельзя поставить напоминание в прошлое!");
     } else {
         dt_picker.setCustomValidity("");
     }
-    if (validity_state.customError) {
-        event.preventDefault();
-    }
     dt_picker.reportValidity();
+    return !dt_picker.validity.customError;
+}
+
+function validate(event) {
+    if (validate_textarea() && validate_datetime()) {
+        return;
+    }
+    event.preventDefault();
 }
 
 let interval;
@@ -79,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const dt_picker = document.querySelector("#form_create input[type=datetime-local]");
-    console.log(dt_picker);
 	if (dt_picker) {
         const now = new Date();
 		dt_picker.value = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
