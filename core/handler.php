@@ -22,9 +22,18 @@ switch($_SERVER["REQUEST_METHOD"]) {
             default:
                 break;
         }
-    break;
+        break;
+    case "GET":
+        switch ($_GET["q"]) {
+            case "nearest":
+                echo json_encode($db->querySingle("SELECT * FROM ".TABLE." ORDER BY datetime;", true));
+                break;
+            default:
+                break;
+        }
+        break;
 }
 
-if ($_SERVER["CONTENT_TYPE"] !== "application/json") {
+if (!empty($_POST["action"])) {
     header("Refresh: 0; url=/");
 }
