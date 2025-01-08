@@ -79,45 +79,17 @@ function validate(event) {
     event.preventDefault();
 }
 
-let interval;
-
-function set_minimum_date() {
-    const dt_picker = document.querySelector("input[type=datetime-local]");
-	if (dt_picker) {
-        const now = new Date();
-        const today = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}`;
-		dt_picker.min = `${today}T00:00`;
-		if (dt_picker.parentElement.id === "form_create") {
-            dt_picker.value = `${today}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
-        }
-	}
+function set_minimum_date(dt_picker) {
+    const now = new Date();
+    const today = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}`;
+    dt_picker.min = `${today}T00:00`;
+    if (dt_picker.parentElement.id === "form_create") {
+        dt_picker.value = `${today}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const list_node = document.querySelector("section.list");
-    if (list_node) {
-        const list_observer = new MutationObserver(function (records) {
-            for (const record of records) {
-                if (record.removedNodes.length) {
-                    console.log(record);
-                }
-            }
-        });
-        list_observer.observe(list_node, {
-            childList:true,
-        });
-    }
-
-    const nearest_deadline = document.querySelector(".todo-item");
-    if (nearest_deadline) {
-        const timestamp = Date.parse(nearest_deadline.dataset.datetime);
-        interval = setInterval(() => {
-            if ((timestamp - Date.now()) <= 0) {
-				clearInterval(interval);
-                go_off();
-            }
-        }, 1000);
-    }
-
-    set_minimum_date();
+	if (dt_picker = document.querySelector("input[type=datetime-local]")) {
+        set_minimum_date(dt_picker);
+	}
 });
