@@ -7,7 +7,7 @@ $todo = $db->querySingle("SELECT * FROM ".TABLE." WHERE id={$_GET['id']};", true
 	<input type="hidden" name="action" value="update">
 	<input type="hidden" name="id" value="<?=$_GET['id']?>">
 	<textarea rows="10" cols="30" name="text" class="pacifico-regular" oninput="this.setCustomValidity('')" required><?=$todo["text"]?></textarea>
-	<input type="datetime-local" name="datetime" value="<?=$todo["datetime"]?>" required>
+	<input type="datetime-local" name="datetime" oninput="this.setCustomValidity('')" value="<?=$todo["datetime"]?>" required>
 	<button type="submit" class="pacifico-regular">Сохранить!</button>
 </form>
 
