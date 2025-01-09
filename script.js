@@ -1,3 +1,8 @@
+let nearest_todo = null;
+if (Notification.permission !== "granted") {
+	Notification.requestPermission();
+}
+
 function show_context_menu(event) {
     const context_menu = document.getElementById("ctx__menu");
     context_menu.style.top = `${event.clientY}px`;
@@ -26,6 +31,10 @@ function confirm_delete(event) {
             }),
         });
 
+		if (event.target.dataset.id == nearest_todo.id) {
+			fetch_nearest_todo();
+		}
+
         const todo = document.querySelector(`div[data-id="${event.target.dataset.id}"]`);
         if (sibling = (todo.nextElementSibling || todo.previousElementSibling)) {
             sibling.remove();
@@ -40,12 +49,8 @@ function confirm_delete(event) {
     }
 }
 
-function go_off() {
-	// TODO: make browser play notification sound;
-	/*
-		Display alert. When user presses "OK", mark todo as fulfilled and go to the next one
-	*/
-    console.log(`going off at: ${Date.now().toLocaleString()}`);
+function go_off(text) {
+	const notification = new Notification("🦋Напоминалка🦋", { body: text });
 }
 
 function validate_textarea() {
@@ -87,6 +92,21 @@ function set_minimum_date(dt_picker) {
         dt_picker.value = `${today}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
     }
 }
+
+async function fetch_nearest_todo() {
+	nearest_todo = await fetch("/core/handler.php?q=nearest").then(response => response.json());
+}
+
+fetch_nearest_todo();
+
+const interval_id = setInterval(() => {
+	if (nearest_todo instanceof Array) {
+		clearInterval(interval_id);
+	} else if(Date.parse(nearest_todo.datetime) <= Date.now()) {
+		clearInterval(interval_id);
+		go_off(nearest_todo.text);
+	}
+}, 1000);
 
 document.addEventListener("DOMContentLoaded", function () {
 	if (dt_picker = document.querySelector("input[type=datetime-local]")) {
