@@ -9,10 +9,14 @@ function mpr($value) {
 
 function log_to_file($data, $filename) {
 	$path = "$_SERVER[DOCUMENT_ROOT]/logs/";
-	if (file_exists($path)) {
+	if (!file_exists($path)) {
 		mkdir($path);
 	}
-	file_put_contents("$path$filename", $data, FILE_APPEND);
+	$path .= $filename;
+	$date = substr((new DateTime())->format(DateTime::ATOM), 0, 16);
+	$up_down = str_repeat("-", strlen($date) + 2);
+	$date = $up_down.PHP_EOL."|$date|".PHP_EOL.$up_down.PHP_EOL;
+	file_put_contents($path, $date.var_export($data, true), FILE_APPEND);
 }
 
 function month_num_to_word($num) : string {
