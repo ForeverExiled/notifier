@@ -19,17 +19,24 @@ switch($_SERVER["REQUEST_METHOD"]) {
 				}
                 break;
             case "update":
-				$statement = $db->prepare("UPDATE ".TABLE." SET (text, datetime, notified) = (?, ?, ?) WHERE id = ?;");
+				$statement = $db->prepare("UPDATE ".TABLE." SET (text, datetime) = (?, ?) WHERE id = ?;");
                 $statement->bindValue(1, $_POST["text"], SQLITE3_TEXT);
 				$statement->bindValue(2, $_POST["datetime"], SQLITE3_TEXT);
-				$statement->bindValue(3, !empty($_POST["notified"]) ? $_POST["notified"] : 0, SQLITE3_INTEGER);
-				$statement->bindValue(4, $_POST["id"], SQLITE3_INTEGER);
+				$statement->bindValue(3, $_POST["id"], SQLITE3_INTEGER);
 				if (!$statement->execute()) {
 					log_to_file(["CODE" => $db->lastErrorCode(), "MESSAGE" => $db->lastErrorMsg(), "ACTION" => "UPDATE"], "database_error");
 				}
                 break;
             case "delete":
                 $db->exec("DELETE FROM ".TABLE." WHERE id={$json['id']};");
+                break;
+			case "complete":
+				$statement = $db->prepare("UPDATE ".TABLE." SET (notified) = (?) WHERE id = ?;");
+				$statement->bindValue(1, !empty($json["notified"]) ? $json["notified"] : 0, SQLITE3_INTEGER);
+				$statement->bindValue(2, $json["id"], SQLITE3_INTEGER);
+				if (!$statement->execute()) {
+					log_to_file(["CODE" => $db->lastErrorCode(), "MESSAGE" => $db->lastErrorMsg(), "ACTION" => "COMPLETE"], "database_error");
+				}
                 break;
             default:
                 break;

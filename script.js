@@ -1,6 +1,7 @@
 const handler_url = "/core/handler.php";
 
 let nearest_todo = null;
+
 if (Notification.permission !== "granted") {
 	Notification.requestPermission();
 }
@@ -101,26 +102,24 @@ async function fetch_nearest_todo() {
 
 fetch_nearest_todo();
 
-// FIXME: debug this #*@!
-// const interval_id = setInterval(() => {
-// 	if (nearest_todo instanceof Array) {
-// 		clearInterval(interval_id);
-// 	} else if(Date.parse(nearest_todo.datetime) <= Date.now()) {
-// 		fetch(handler_url, {
-// 			method: "POST",
-// 			headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({
-//                 id: nearest_todo.id,
-//                 action: "update",
-// 				notified: 1,
-//             }),
-// 		});
-// 		go_off(nearest_todo.text);
-// 		fetch_nearest_todo();
-// 	}
-// }, 1000);
+const interval_id = setInterval(() => {
+	if (nearest_todo instanceof Array) {
+		clearInterval(interval_id);
+	} else if(Date.parse(nearest_todo.datetime) <= Date.now()) {
+		go_off(nearest_todo.text);
+		fetch(handler_url, {
+			method: "POST",
+			headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: nearest_todo.id,
+                action: "complete",
+				notified: 1,
+            }),
+		}).then(fetch_nearest_todo);
+	}
+}, 5000);
 
 document.addEventListener("DOMContentLoaded", function () {
 	if (dt_picker = document.querySelector("input[type=datetime-local]")) {
