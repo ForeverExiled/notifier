@@ -11,20 +11,22 @@ switch($_SERVER["REQUEST_METHOD"]) {
         }
         switch($action) {
             case "create":
-                $db->exec("INSERT INTO ".TABLE." (text, datetime) VALUES (\"{$_POST['text']}\", \"{$_POST['datetime']}\")");
+				$statement = $db->prepare("INSERT INTO ".TABLE." (text, datetime) VALUES (?, ?);");
+                $statement->bindValue(1, $_POST["text"], SQLITE3_TEXT);
+				$statement->bindValue(2, $_POST["datetime"], SQLITE3_TEXT);
+				if (!$statement->execute()) {
+					log_to_file(["CODE" => $db->lastErrorCode(), "MESSAGE" => $db->lastErrorMsg(), "ACTION" => "CREATE"], "database_error");
+				}
                 break;
             case "update":
-				// TODO: make query prettier and simpler (BIND and/or ternary to set value)
-				$query = "UPDATE ".TABLE." SET (text, datetime";
-				if (!empty($_POST["notified"])) {
-					$query .= ", notified";
+				$statement = $db->prepare("UPDATE ".TABLE." SET (text, datetime, notified) = (?, ?, ?) WHERE id = ?;");
+                $statement->bindValue(1, $_POST["text"], SQLITE3_TEXT);
+				$statement->bindValue(2, $_POST["datetime"], SQLITE3_TEXT);
+				$statement->bindValue(3, !empty($_POST["notified"]) ? $_POST["notified"] : 0, SQLITE3_INTEGER);
+				$statement->bindValue(4, $_POST["id"], SQLITE3_INTEGER);
+				if (!$statement->execute()) {
+					log_to_file(["CODE" => $db->lastErrorCode(), "MESSAGE" => $db->lastErrorMsg(), "ACTION" => "UPDATE"], "database_error");
 				}
-				$query .= ") = (\"{$_POST['text']}\", \"{$_POST['datetime']}\"";
-				if (!empty($_POST["notified"])) {
-					$query .= " \"{$_POST['notified']}\"";
-				}
-				$query .= ") WHERE id={$_POST['id']};";
-                $db->exec($query);
                 break;
             case "delete":
                 $db->exec("DELETE FROM ".TABLE." WHERE id={$json['id']};");
