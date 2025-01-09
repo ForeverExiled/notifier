@@ -7,6 +7,14 @@ function mpr($value) {
     echo "</pre>";
 }
 
+function log_to_file($data, $filename) {
+	$path = "$_SERVER[DOCUMENT_ROOT]/logs/";
+	if (file_exists($path)) {
+		mkdir($path);
+	}
+	file_put_contents("$path$filename", $data, FILE_APPEND);
+}
+
 function month_num_to_word($num) : string {
     $month = [
         "01" => "января",
