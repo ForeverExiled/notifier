@@ -1,3 +1,5 @@
+const handler_url = "/core/handler.php";
+
 let nearest_todo = null;
 if (Notification.permission !== "granted") {
 	Notification.requestPermission();
@@ -20,7 +22,7 @@ function hide_context_menu() {
 
 function confirm_delete(event) {
     if (confirm("Подтверди удаление!")) {
-        fetch("/core/handler.php", {
+        fetch(handler_url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -94,19 +96,31 @@ function set_minimum_date(dt_picker) {
 }
 
 async function fetch_nearest_todo() {
-	nearest_todo = await fetch("/core/handler.php?q=nearest").then(response => response.json());
+	nearest_todo = await fetch(`${handler_url}?q=nearest`).then(response => response.json());
 }
 
 fetch_nearest_todo();
 
-const interval_id = setInterval(() => {
-	if (nearest_todo instanceof Array) {
-		clearInterval(interval_id);
-	} else if(Date.parse(nearest_todo.datetime) <= Date.now()) {
-		clearInterval(interval_id);
-		go_off(nearest_todo.text);
-	}
-}, 1000);
+// FIXME: debug this #*@!
+// const interval_id = setInterval(() => {
+// 	if (nearest_todo instanceof Array) {
+// 		clearInterval(interval_id);
+// 	} else if(Date.parse(nearest_todo.datetime) <= Date.now()) {
+// 		fetch(handler_url, {
+// 			method: "POST",
+// 			headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//                 id: nearest_todo.id,
+//                 action: "update",
+// 				notified: 1,
+//             }),
+// 		});
+// 		go_off(nearest_todo.text);
+// 		fetch_nearest_todo();
+// 	}
+// }, 1000);
 
 document.addEventListener("DOMContentLoaded", function () {
 	if (dt_picker = document.querySelector("input[type=datetime-local]")) {

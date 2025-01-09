@@ -14,7 +14,17 @@ switch($_SERVER["REQUEST_METHOD"]) {
                 $db->exec("INSERT INTO ".TABLE." (text, datetime) VALUES (\"{$_POST['text']}\", \"{$_POST['datetime']}\")");
                 break;
             case "update":
-                $db->exec("UPDATE ".TABLE." SET (text, datetime) = (\"{$_POST['text']}\", \"{$_POST['datetime']}\") WHERE id={$_POST['id']};");
+				// TODO: make query prettier and simpler (BIND and/or ternary to set value)
+				$query = "UPDATE ".TABLE." SET (text, datetime";
+				if (!empty($_POST["notified"])) {
+					$query .= ", notified";
+				}
+				$query .= ") = (\"{$_POST['text']}\", \"{$_POST['datetime']}\"";
+				if (!empty($_POST["notified"])) {
+					$query .= " \"{$_POST['notified']}\"";
+				}
+				$query .= ") WHERE id={$_POST['id']};";
+                $db->exec($query);
                 break;
             case "delete":
                 $db->exec("DELETE FROM ".TABLE." WHERE id={$json['id']};");
@@ -26,7 +36,7 @@ switch($_SERVER["REQUEST_METHOD"]) {
     case "GET":
         switch ($_GET["q"]) {
             case "nearest":
-                echo json_encode($db->querySingle("SELECT * FROM ".TABLE." ORDER BY datetime;", true));
+                echo json_encode($db->querySingle("SELECT * FROM ".TABLE." WHERE notified = 0 ORDER BY datetime;", true));
                 break;
             default:
                 break;
