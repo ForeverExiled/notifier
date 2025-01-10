@@ -3,7 +3,11 @@ const handler_url = "/core/handler.php";
 let nearest_todo = null;
 
 if (Notification.permission !== "granted") {
-	Notification.requestPermission();
+	Notification.requestPermission().then((permission) => {
+		if (permission !== "granted") {
+			alert("Для работы приложения требуется разрешение пользователя на отображение уведомлений!");
+		}
+	});
 }
 
 function show_context_menu(event) {
@@ -52,8 +56,13 @@ function confirm_delete(event) {
     }
 }
 
-function go_off(text) {
-	const notification = new Notification("🦋Напоминалка🦋", { body: text });
+function go_off(todo) {
+	new Notification("🦋Напоминалка🦋", {
+		body: todo.text,
+		timestamp: Date.parse(todo.datetime),
+		requireInteraction: true,
+
+	});
 }
 
 function validate_textarea() {
@@ -106,7 +115,7 @@ const interval_id = setInterval(() => {
 	if (nearest_todo instanceof Array) {
 		clearInterval(interval_id);
 	} else if(Date.parse(nearest_todo.datetime) <= Date.now()) {
-		go_off(nearest_todo.text);
+		go_off(nearest_todo);
 		fetch(handler_url, {
 			method: "POST",
 			headers: {
