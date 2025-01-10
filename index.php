@@ -19,7 +19,13 @@ $count = count($todos);
 
 <section class="list<?if($count) echo " show"?>">
 	<?for($i = 0; $i < $count; $i++):?>
-		<div class="todo-item<?if($todos[$i]["notified"]) echo " notified"?>" data-id="<?=$todos[$i]["id"]?>" data-datetime="<?=$todos[$i]["datetime"]?>" onclick="show_context_menu(event)">
+		<?$notified = $todos[$i]["notified"]?>
+		<div class="todo-item<?if($notified) echo " notified"?>" data-id="<?=$todos[$i]["id"]?>" data-datetime="<?=$todos[$i]["datetime"]?>"<?if(!$notified) echo " onclick=\"show_context_menu(event)\""?>>
+			<span
+				class="<?=$notified ? "trash-can" : ""?>"
+				 data-id="<?=$todos[$i]["id"]?>"
+				<?if($notified) echo " onclick=\"confirm_delete(event)\""?>
+			></span>
 			<?=$todos[$i]["text"]?>
 		</div>
 		<?if($i < $count - 1):?>

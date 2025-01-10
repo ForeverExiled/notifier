@@ -75,6 +75,10 @@ section.list {
 		font-style: italic;
 		cursor: pointer;
 	}
+	&.notified {
+		user-select: none;
+		text-decoration: line-through;
+	}
 }
 #ctx__wrapper {
     position: absolute;
@@ -107,6 +111,13 @@ section.list {
         display: block;
     }
 }
-.notified {
-	text-decoration: line-through;
+.trash-can::before {
+	content: "\1F5D1";
+	margin-right: 5px;
+	display: inline-block;
+	text-decoration: none;
+	scale: 1.5;
+}
+.trash-can:hover {
+	cursor: pointer;
 }
