@@ -100,12 +100,18 @@ function validate(event) {
     event.preventDefault();
 }
 
+function format_date(date) {
+	return `${date.getFullYear()}-${(date.getMonth() + 1 + "").padStart(2, "0")}-${(date.getDate() + "").padStart(2, "0")}`;
+}
+
 function set_minimum_date(dt_picker) {
     const now = new Date();
-    const today = `${now.getFullYear()}-${(now.getMonth() + 1 + "").padStart(2, "0")}-${(now.getDate() + "").padStart(2, "0")}`;
+    const today = format_date(now);
     dt_picker.min = `${today}T00:00`;
     if (dt_picker.parentElement.id === "form_create") {
-        dt_picker.value = `${today}T${(now.getHours() + "").padStart(2, "0")}:${(now.getMinutes() + 1 + "").padStart(2, "0")}`;
+		const minutes = now.getMinutes() + 1 + "";
+		const hours = now.getHours() + (minutes === "60" ? 1 : 0) + "";
+        dt_picker.value = `${minutes === "60" && hours === "24" ? format_date(new Date(Date.now() + 86400000)) : today}T${(hours === "24" ? "00" : hours).padStart(2, "0")}:${(minutes === "60" ? "00" : minutes).padStart(2, "0")}`;
     }
 }
 
