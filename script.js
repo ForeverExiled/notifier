@@ -57,11 +57,15 @@ function confirm_delete(event) {
 }
 
 function go_off(todo) {
-	new Notification("🦋Напоминалка🦋", {
+	const notification = new Notification("🦋Напоминалка🦋", {
 		body: todo.text,
 		timestamp: Date.parse(todo.datetime),
 		requireInteraction: true,
-
+	});
+	notification.addEventListener("close", function () {
+		if (complete_todo = document.querySelector(`div[data-id="${todo.id}"]`)) {
+			complete_todo.classList.add("notified");
+		}
 	});
 }
 

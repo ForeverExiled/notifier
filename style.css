@@ -63,18 +63,18 @@ section.list {
     scrollbar-color: pink black;
     scrollbar-gutter: stable;
     padding: 0 50px 0 0;
-    & div {
-        margin: 10px;
-        &:hover {
-            text-decoration: underline;
-            color: pink;
-            font-style: italic;
-            cursor: pointer;
-        }
-    }
     &.show {
         display: block;
     }
+}
+.todo-item {
+	margin: 10px;
+	&:not(.notified):hover {
+		text-decoration: underline;
+		color: pink;
+		font-style: italic;
+		cursor: pointer;
+	}
 }
 #ctx__wrapper {
     position: absolute;
@@ -106,4 +106,7 @@ section.list {
     &.show {
         display: block;
     }
+}
+.notified {
+	text-decoration: line-through;
 }
