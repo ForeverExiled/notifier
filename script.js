@@ -57,15 +57,10 @@ function confirm_delete(event) {
 }
 
 function go_off(todo) {
-	const notification = new Notification("🦋Напоминалка🦋", {
+	new Notification("🦋Напоминалка🦋", {
 		body: todo.text,
 		timestamp: Date.parse(todo.datetime),
 		requireInteraction: true,
-	});
-	notification.addEventListener("close", function () {
-		if (complete_todo = document.querySelector(`div[data-id="${todo.id}"]`)) {
-			complete_todo.classList.add("notified");
-		}
 	});
 }
 
@@ -125,6 +120,12 @@ const interval_id = setInterval(() => {
 	if (nearest_todo instanceof Array) {
 		clearInterval(interval_id);
 	} else if(Date.parse(nearest_todo.datetime) <= Date.now()) {
+		if (todo_node = document.querySelector(`div[data-id="${nearest_todo.id}"]`)) {
+			todo_node.removeAttribute("onclick");
+			todo_node.classList.add("notified");
+			todo_node.firstElementChild.addEventListener("click", confirm_delete);
+			todo_node.firstElementChild.classList.add("trash-can");
+		}
 		go_off(nearest_todo);
 		fetch(handler_url, {
 			method: "POST",
