@@ -23,7 +23,7 @@ $count = count($todos);
 		<div class="todo-item<?if($notified) echo " notified"?>" data-id="<?=$todos[$i]["id"]?>" data-datetime="<?=$todos[$i]["datetime"]?>"<?if(!$notified) echo " onclick=\"show_context_menu(event)\""?>>
 			<span
 				class="<?=$notified ? "trash-can" : ""?>"
-				 data-id="<?=$todos[$i]["id"]?>"
+				data-id="<?=$todos[$i]["id"]?>"
 				<?if($notified) echo " onclick=\"confirm_delete(event)\""?>
 			></span>
 			<?=$todos[$i]["text"]?>

@@ -141,7 +141,44 @@ const interval_id = setInterval(() => {
 	}
 }, 5000);
 
+function recalculate_elements_size(elements) {
+	elements.forEach(element => {
+		element.width = window.innerWidth;
+		element.height = window.innerHeight;
+	});
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+	const back_canvas = document.getElementById("back_canvas");
+	const back_context = back_canvas.getContext("2d", {
+		willReadFrequently: true,
+	});
+	const front_canvas = document.getElementById("front_canvas");
+	const front_context = front_canvas.getContext("2d");
+	const video = document.querySelector("video");
+	recalculate_elements_size([back_canvas, front_canvas, video]);
+	window.addEventListener("resize", function () {
+		recalculate_elements_size([back_canvas, front_canvas, video]);
+	});
+	
+	setInterval(() => {
+		back_context.drawImage(video, 0, 0, back_canvas.width, back_canvas.height);
+		const frame = back_context.getImageData(0, 0, back_canvas.width, back_canvas.height);
+		const pixels = frame.data;
+
+		for (let i = 0; i < pixels.length; i += 4) {
+			if (pixels[i + 1] > 0) {
+				pixels[i + 3] = 0;
+			} else {
+				pixels[i + 0] = 255;
+				pixels[i + 1] = 255;
+				pixels[i + 2] = 255;
+			}
+		}
+
+		front_context.putImageData(frame, 0, 0);
+	}, 0);
+
 	if (dt_picker = document.querySelector("input[type=datetime-local]")) {
         set_minimum_date(dt_picker);
 	}
